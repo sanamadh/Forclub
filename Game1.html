@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Offline Dragon Game</title>
+<style>
+  body{
+    background:#87CEEB;
+    overflow:hidden;
+  }
+
+#dragon{
+  width:80px;
+  height:80px;
+  background-image:url("dragon.png");
+  background-size:contain;
+  background-repeat:no-repeat;
+  position:absolute;
+  bottom:0;
+  left:50px;
+}
+
+  #obstacle{
+    width:40px;
+    height:60px;
+    background:green;
+    position:absolute;
+    bottom:0;
+    right:-40px;
+    animation: moveObstacle 2s linear infinite;
+  }
+
+  @keyframes moveObstacle{
+    0%{right:-40px;}
+    100%{right:100%;}
+  }
+
+  .jump{
+    animation: jump 0.5s;
+  }
+
+  @keyframes jump{
+    0%{bottom:0;}
+    50%{bottom:120px;}
+    100%{bottom:0;}
+  }
+</style>
+</head>
+
+<body>
+
+<div id="dragon"></div>
+<div id="obstacle"></div>
+
+<script>
+
+let dragon = document.getElementById("dragon");
+
+document.addEventListener("keydown", function(){
+  if(!dragon.classList.contains("jump")){
+    dragon.classList.add("jump");
+
+    setTimeout(function(){
+      dragon.classList.remove("jump");
+    },500);
+  }
+});
+
+let obstacle = document.getElementById("obstacle");
+
+setInterval(function(){
+
+  let dragonBottom = parseInt(window.getComputedStyle(dragon).getPropertyValue("bottom"));
+  let obstacleLeft = parseInt(window.getComputedStyle(obstacle).getPropertyValue("left"));
+
+  if(obstacleLeft < 100 && obstacleLeft > 50 && dragonBottom < 50){
+    alert("Game Over!");
+    location.reload();
+  }
+
+},10);
+
+</script>
+
+</body>
+</html>
